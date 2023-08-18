@@ -1,7 +1,7 @@
 import customtkinter
 
 customtkinter.set_appearance_mode("dark")  
-customtkinter.set_default_color_theme("blue") 
+customtkinter.set_default_color_theme("blue")  
 
 app = customtkinter.CTk() 
 app.title("TicTacToe")
@@ -18,9 +18,8 @@ def main():
     global turn
     turn = 2
 
-
     def button_event(x):
-        if x.cget("text") == "" and "Game Over" not in label.cget("text"): 
+        if x.cget("text") == "" and "Game Over" not in label.cget("text"):  
             global turn
             if turn % 2 == 0:
                 x.configure(text="X", font = ("Arial", 38))
@@ -34,7 +33,6 @@ def main():
         call_turn()
         checkwin()
 
-
     def call_turn():
         global turn
         if turn % 2 == 0:
@@ -47,13 +45,14 @@ def main():
         for combination in winning_combinations:
             if all(buttons[i].cget("text") == buttons[combination[0]].cget("text") != "" for i in combination):
                 if turn % 2 == 0:
-                    label.configure(text= f"Game Over, Player 2 wins!")
+                    label.configure(text= f"Game Over, Player 2 wins!") 
                 else:
                     label.configure(text= f"Game Over, Player 1 wins!")
-                reset()         
-        if turn == 11:
-            label.configure(text = "Draw!!!")
-            reset()        
+                reset()    
+                return     
+            elif turn == 11:
+                label.configure(text = "Draw!!!")
+                reset()        
 
     def reset():
         button_reset = customtkinter.CTkButton(app, text="Reset", command=b_reset, text_color="white", fg_color="red", width=52.5, hover_color="dark red")
@@ -63,39 +62,19 @@ def main():
         label.destroy()
         main()
 
-    button1 = customtkinter.CTkButton(app, text="", command=lambda: button_event(button1), width=105, height=105, text_color="white")
-    button1.place(relx=0.2, rely=0.8, anchor=customtkinter.CENTER)
 
-    button2 = customtkinter.CTkButton(app, text="", command=lambda: button_event(button2), width=105, height=105, text_color="white")
-    button2.place(relx=0.5, rely=0.8, anchor=customtkinter.CENTER)
+    button_positions = [(0.2, 0.8), (0.5, 0.8), (0.8, 0.8), (0.2, 0.59), (0.5, 0.59), (0.8, 0.59), (0.2, 0.38), (0.5, 0.38), (0.8, 0.38)]
+    buttons = []
 
-    button3 = customtkinter.CTkButton(app, text="", command=lambda: button_event(button3), width=105, height=105, text_color="white")
-    button3.place(relx=0.8, rely=0.8, anchor=customtkinter.CENTER)
-
-    button4 = customtkinter.CTkButton(app, text="", command=lambda: button_event(button4), width=105, height=105, text_color="white")
-    button4.place(relx=0.2, rely=0.59, anchor=customtkinter.CENTER)
-
-    button5 = customtkinter.CTkButton(app, text="", command=lambda: button_event(button5), width=105, height=105, text_color="white")
-    button5.place(relx=0.5, rely=0.59, anchor=customtkinter.CENTER)
-
-    button6 = customtkinter.CTkButton(app, text="", command=lambda: button_event(button6), width=105, height=105, text_color="white")
-    button6.place(relx=0.8, rely=0.59, anchor=customtkinter.CENTER)
-
-    button7 = customtkinter.CTkButton(app, text="", command=lambda: button_event(button7), width=105, height=105, text_color="white")
-    button7.place(relx=0.2, rely=0.38, anchor=customtkinter.CENTER)
-
-    button8 = customtkinter.CTkButton(app, text="", command=lambda: button_event(button8), width=105, height=105, text_color="white")
-    button8.place(relx=0.5, rely=0.38, anchor=customtkinter.CENTER)
-
-    button9 = customtkinter.CTkButton(app, text="", command=lambda: button_event(button9), width=105, height=105, text_color="white")
-    button9.place(relx=0.8, rely=0.38, anchor=customtkinter.CENTER)
-
-    buttons = [button1, button2, button3, button4, button5, button6, button7, button8, button9]
+    for i, position in enumerate(button_positions):
+        button = customtkinter.CTkButton(app, text="", command=lambda i=i: button_event(buttons[i]), width=105, height=105, text_color="white")
+        button.place(relx=position[0], rely=position[1], anchor=customtkinter.CENTER)
+        buttons.append(button)
 
     label = customtkinter.CTkLabel(app, text="Player 1's turn", fg_color="transparent", font=("Arial", 28))
     label.place(relx=0.5, rely=0.13, anchor=customtkinter.CENTER)
 
-    app.mainloop() 
-
+    app.mainloop()  
+    
 if __name__ == "__main__":
     main()
