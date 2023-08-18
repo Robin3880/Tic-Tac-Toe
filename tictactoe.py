@@ -3,7 +3,7 @@ import customtkinter
 customtkinter.set_appearance_mode("dark")  
 customtkinter.set_default_color_theme("blue")  
 
-app = customtkinter.CTk() 
+app = customtkinter.CTk() # create CTk window 
 app.title("TicTacToe")
 app.geometry("350x500")
 app.resizable(False, False)
@@ -18,8 +18,9 @@ def main():
     global turn
     turn = 2
 
+#button function to show X or O when button is pressed
     def button_event(x):
-        if x.cget("text") == "" and "Game Over" not in label.cget("text"):  
+        if x.cget("text") == "" and "Game Over" not in label.cget("text"):  #checks if button is blank and game is still active
             global turn
             if turn % 2 == 0:
                 x.configure(text="X", font = ("Arial", 38))
@@ -33,6 +34,7 @@ def main():
         call_turn()
         checkwin()
 
+#checks who's turn it is and displays it on the label
     def call_turn():
         global turn
         if turn % 2 == 0:
@@ -40,6 +42,7 @@ def main():
         else:
             label.configure(text="Players 2's turn")
 
+#checks if a player has 3 X's or 3 0's in a row 
     def checkwin():
         global turn
         for combination in winning_combinations:
@@ -54,15 +57,17 @@ def main():
                 label.configure(text = "Draw!!!")
                 reset()        
 
+#creates a reset button when game is finished
     def reset():
         button_reset = customtkinter.CTkButton(app, text="Reset", command=b_reset, text_color="white", fg_color="red", width=52.5, hover_color="dark red")
         button_reset.place(relx=0.875, rely=0.95, anchor=customtkinter.CENTER)
 
+#creates new game when reset button is pressed
     def b_reset():
         label.destroy()
         main()
 
-
+#creates the buttons and label for the gui
     button_positions = [(0.2, 0.8), (0.5, 0.8), (0.8, 0.8), (0.2, 0.59), (0.5, 0.59), (0.8, 0.59), (0.2, 0.38), (0.5, 0.38), (0.8, 0.38)]
     buttons = []
 
@@ -74,7 +79,7 @@ def main():
     label = customtkinter.CTkLabel(app, text="Player 1's turn", fg_color="transparent", font=("Arial", 28))
     label.place(relx=0.5, rely=0.13, anchor=customtkinter.CENTER)
 
-    app.mainloop()  
+    app.mainloop()  #starts app window
     
 if __name__ == "__main__":
     main()
